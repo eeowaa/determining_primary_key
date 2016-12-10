@@ -50,21 +50,8 @@ NF == num_elements {
             # combination index is equal to 1
             if (element_mask[e]) {
 
-                # Print the field using the specified endianness
-                if (endianness == "little") {
-
-                    # Field "1" is the left-most field
-                    printf $e
-
-                } else if (endianness == "big") {
-
-                    # Field "1" is the right-most field
-                    printf $(num_elements - e + 1)
-
-                } else {
-                    print "invalid endianness: " endianness > "/dev/stderr"
-                    exit 1
-                }
+                # Print the field, assuming field order increases right-to-left
+                printf $(num_elements - e + 1)
 
             # Otherwise (the bit in the combination index is equal to 0)
             } else {
