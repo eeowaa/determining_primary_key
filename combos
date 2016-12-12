@@ -4,6 +4,7 @@
 BEGIN {
     # Define output control variables
     endianness = "big"
+    printmask = "yes"
     placeholder = "-"
     OFS = " "
 }
@@ -30,12 +31,24 @@ NF == num_elements {
         # Print the decimal index of the combination
         printf c ":"
 
+        # Create a mask to apply to fields by converting the combination index
+        # to binary and storing each bit in a separate array element
+        for (e = num_elements; e > 0; --e) {
+            element_mask[e] = rshift(c, e - 1) % 2
+
+            # Print the mask (each bit of binary combination index) if desired
+            if (printmask)
+                printf element_mask[e]
+        }
+        if (printmask)
+            printf ":"
+
         # For each field in the record
         for (e = num_elements; e > 0; --e) {
 
             # If the bit corresponding to field position within the binary
             # combination index is equal to 1
-            if (rshift(c, e - 1) % 2) {
+            if (element_mask[e]) {
 
                 # Print the field using the specified endianness
                 if (endianness == "little") {
