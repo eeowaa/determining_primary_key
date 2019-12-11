@@ -6,6 +6,7 @@ BEGIN {
     endianness = "big"
     printmask = "yes"
     placeholder = "-"
+    FS = "\t"
     OFS = " "
 }
 
